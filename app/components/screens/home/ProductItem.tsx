@@ -1,10 +1,17 @@
 import Image from "next/image";
-import { FC } from "react";
+import {FC} from "react";
+import {useActions} from "../../../hooks/useActions";
+import {useTypedSelector} from "../../../hooks/useTypedSelector";
+import {IProduct} from "../../../store/product/product.types";
 
-const ProductItem: FC<{ product: any }> = ({ product }) => {
+const ProductItem: FC<{ product: IProduct }> = ({product}) => {
+  const {addItem, removeItem} = useActions();
+  const {cart} = useTypedSelector(state => state);
+  const isExistInCart = cart.some(p => p.id === product.id)
+
   return (
     <div
-      style={{ width: "48%", backgroundColor: "#E5F0EA" }}
+      style={{width: "48%", backgroundColor: "#E5F0EA"}}
       className="rounded-xl mb-5 p-3 shadow-sm"
     >
       <div className="text-center">
@@ -22,8 +29,9 @@ const ProductItem: FC<{ product: any }> = ({ product }) => {
         </div>
         <div className="text-sm text-green-600">${product.price}</div>
       </div>
-      <button className="text-sm mt-3 bg-white rounded-xl w-3/4 mx-auto block p-1 hover:bg-green-200">
-        Add to cart
+      <button className="text-sm mt-3 bg-white rounded-xl w-3/4 mx-auto block p-1 hover:bg-green-200"
+              onClick={() => !isExistInCart && addItem(product)}>
+        {isExistInCart ? "Already in cart" : "Add to cart"}
       </button>
     </div>
   );

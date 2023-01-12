@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useGetProductsQuery } from "../../../store/product/product.api";
-import CartDropdown from "./card-dropdown/CartDropdown";
+import CartDropdown from "./cart-dropdown/CartDropdown";
 import ProductItem from "./ProductItem";
 
 const data: any = [
